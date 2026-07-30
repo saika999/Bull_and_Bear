@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bull or Bear</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="./css/main.css">
+    </head>
+    <body>
+        <header class="header">
+            <div class="container d-flex">
+                <div class="header__logo-wrap">
+                    <img class="header__logo" src="./assets/img/logo_header.jpg"
+                        alt="logo">
+                    <h1 class="header__title">Bull & Bear</h1>
+                </div>
+                <nav class="header__nav">
+                    <a class="header__link" href="#">О игре</a>
+                    <a class="header__link" href="#">Рейтинг</a>
+                    <a class="header__link" href="#">Правила</a>
+                </nav>
+                <div class="profile-badge header__profile hidden" id="profile-badge">
+                    <button class="profile-badge__trigger" id="profile-trigger"
+                        type="button">
+                        <div class="profile-badge__avatar"
+                            id="profile-avatar"></div>
+                        <img class="profile-badge__flag" id="profile-flag"
+                            alt="flag">
+                    </button>
+
+                    <div class="profile-dropdown hidden" id="profile-dropdown">
+                        <div class="profile-dropdown__header">
+                            <div class="profile-dropdown__avatar"
+                                id="dropdown-avatar"></div>
+                            <div>
+                                <p class="profile-dropdown__name"
+                                    id="dropdown-name"></p>
+                                <p class="profile-dropdown__country">
+                                    <img class="profile-dropdown__flag"
+                                        id="dropdown-flag" alt="flag">
+                                    <span id="dropdown-country-name"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <button class="profile-dropdown__reset"
+                            id="profile-logout" type="button">Выйти из
+                            аккаунта</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <section class="start-screen" id="start-screen">
+                <div class="start-card">
+                    <h2 class="start-card__title">Начало игры</h2>
+
+                    <form id="start-form" novalidate>
+                        <div class="form-group">
+                            <label class="form-group__label"
+                                for="nickname">Никнейм</label>
+                            <input
+                                class="form-group__input"
+                                type="text"
+                                id="nickname"
+                                name="nickname">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-group__label"
+                                for="country">Страна</label>
+                            <select class="form-group__select" id="country"
+                                name="country">
+                                <option value disabled selected>Выберите
+                                    страну</option>
+                            </select>
+                        </div>
+
+                        <p class="form-group__error" id="form-error"></p>
+
+                        <button class="btn-start" id="start_app"
+                            type="submit">Start App</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="game-screen hidden" id="game-screen">
+                <div class="container">
+
+                    <div class="game-board">
+                        <h2 class="game-board__title">Предскажи рынок</h2>
+                        <p class="game-board__subtitle">Как поведёт себя <span
+                                id="coin-name">Bitcoin</span> в ближайшие 15
+                            минут?</p>
+
+                        <div class="price-panel">
+                            <span class="price-panel__label">Текущая цена</span>
+                            <span class="price-panel__value"
+                                id="current-price">$0.00</span>
+                        </div>
+
+                        <div class="predict-buttons">
+                            <button class="predict-btn predict-btn--bull"
+                                id="btn-bull" type="button">
+                                <span class="predict-btn__icon">▲</span>
+                                Bull
+                            </button>
+                            <button class="predict-btn predict-btn--bear"
+                                id="btn-bear" type="button">
+                                <span class="predict-btn__icon">▼</span>
+                                Bear
+                            </button>
+                        </div>
+
+                        <div class="score-panel">
+                            <span class="score-panel__label">Счёт</span>
+                            <span class="score-panel__value"
+                                id="score-value">0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script src="./js/app.js" type="module"></script>
+    </body>
+</html>
