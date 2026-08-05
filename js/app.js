@@ -38,11 +38,28 @@ let currentPrice = generatePrice();
 function generatePrice() {
     return 60000 + Math.random() * 5000;
 }
-
 function updatePriceDisplay() {
     currentPriceEl.textContent = `$${currentPrice.toFixed(2)}`;
+    console.log(currentPrice);
 }
 
+setInterval(() => {
+    updatePriceDisplay();
+}, 20000);
+
+function startLivePrice() {
+    const socket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@aggTrade');
+
+    socket.addEventListener("message", (event) => {
+        const data = JSON.parse(event.data);
+        currentPrice = Number(data.p);
+    });
+
+    socket.addEventListener("close", () => {
+        setTimeout(startLivePrice, 3000);
+    });
+}
+startLivePrice()
 function getCountryData(code) {
     return countries.find(item => item.code === code);
 }
