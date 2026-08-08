@@ -456,3 +456,29 @@ body {
         font-size: 14px;
     }
 }
+
+.currency-menu {
+    display: flex;
+    padding: 30px 0;
+    gap: 15px;
+    justify-content: center;
+}
+
+.currency-btn {
+    cursor: pointer;
+    padding: 8px 8px;
+    background-color: #8d9dc77a;
+    color: #ffffff;
+    border: 1px solid #7e839f;
+    border-radius: 10px;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: darken($color: #8d9dc77a, $amount: 30)
+    }
+
+    &_active {
+        background-color: #2c313f7a;
+        box-shadow: 0px 0px 10px 0px; 
+    }
+}

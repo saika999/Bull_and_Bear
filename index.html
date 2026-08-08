@@ -89,15 +89,45 @@
                     </form>
                 </div>
             </section>
-
             <section class="game-screen hidden" id="game-screen">
                 <div class="container">
-                    <div class="bitcoin-chart">
-                        <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_btc&amp;symbol=BITSTAMP%3ABTCUSD&amp;interval=15&amp;hidesidetoolbar=1&amp;symboledit=1&amp;saveimage=0&amp;toolbarbg=F1F3F6&amp;studies=[]&amp;theme=dark&amp;style=1&amp;timezone=Etc%2FUTC&amp;withdateranges=1&amp;hideideas=1&amp;locale=uk" frameborder="0" class="bitcoin-chart__frame" title="Bitcoin chart from" loading="lazy" allowfullscreen>
+                    <div class="currency-menu">
+                        <button class="currency-btn currency-btn_active"
+                            data-symbol="BTCUSD"
+                            data-stream="btcusdt"
+                            data-name="Bitcoin"
+                            data-coin="BTC">
+                            
+                            BTC/USD
+                        </button>
 
+                        <button class="currency-btn"
+                            data-symbol="ETHUSD"
+                            data-stream="ethusdt"
+                            data-name="Ethereum"
+                            data-coin="ETH">
+                            ETH/USD
+                        </button>
+
+                        <button class="currency-btn"
+                            data-symbol="SOLUSD"
+                            data-stream="solusdt"
+                            data-name="Solana"
+                            data-coin="SOL">
+                            SOL/USD
+                        </button>
+                    </div>
+                    <div class="bitcoin-chart">
+                        <iframe
+                            src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_btc&amp;symbol=BITSTAMP%3ABTCUSD&amp;interval=15&amp;hidesidetoolbar=1&amp;symboledit=1&amp;saveimage=0&amp;toolbarbg=F1F3F6&amp;studies=[]&amp;theme=dark&amp;style=1&amp;timezone=Etc%2FUTC&amp;withdateranges=1&amp;hideideas=1&amp;locale=uk"
+                            frameborder="0" class="bitcoin-chart__frame"
+                            title="Bitcoin chart from" loading="lazy"
+                            allowfullscreen>
 
                         </iframe>
-                        <canvas class="bitcoin-chart__canvas" id="bitcoin-canvas" aria-label="Bitcoin candlestick chart"></canvas>
+                        <canvas class="bitcoin-chart__canvas"
+                            id="bitcoin-canvas"
+                            aria-label="Bitcoin candlestick chart"></canvas>
                         <p class="bitcoin-chart__loading">Loading chart...</p>
                     </div>
 
@@ -132,8 +162,7 @@
                                 id="score-value">0</span>
                         </div>
                     </div>
-                    
-                    
+
                 </div>
             </section>
         </main>

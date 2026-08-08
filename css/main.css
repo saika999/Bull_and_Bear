@@ -407,4 +407,28 @@ body {
   background: #fff;
   color: #777;
   font-size: 14px;
+}
+
+.currency-menu {
+  display: flex;
+  padding: 30px 0;
+  gap: 15px;
+  justify-content: center;
+}
+
+.currency-btn {
+  cursor: pointer;
+  padding: 8px 8px;
+  background-color: rgba(141, 157, 199, 0.4784313725);
+  color: #ffffff;
+  border: 1px solid #7e839f;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+.currency-btn:hover {
+  background-color: rgba(61.6, 79.2, 125.4, 0.4784313725);
+}
+.currency-btn_active {
+  background-color: rgba(44, 49, 63, 0.4784313725);
+  box-shadow: 0px 0px 10px 0px;
 }/*# sourceMappingURL=main.css.map */
