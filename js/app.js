@@ -23,8 +23,85 @@ const currentPriceEl = document.getElementById('current-price');
 const scoreValueEl = document.getElementById('score-value');
 const btnBull = document.getElementById('btn-bull');
 const btnBear = document.getElementById('btn-bear');
+const bitcoinCanvas = document.getElementById('bitcoin-canvas');
+const chartLoading = document.querySelector('.bitcoin-chart__loading');
+const chartCtx = bitcoinCanvas.getContext('2d');
 
-// заполняем select странами
+const priceHistory = [];
+const MAX_POINTS = 120;
+
+function resizeCanvas() {
+    const rect = bitcoinCanvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    bitcoinCanvas.width = rect.width * dpr;
+    bitcoinCanvas.height = rect.height * dpr;
+    bitcoinCanvas.style.width = `${rect.width}px`;
+    bitcoinCanvas.style.height = `${rect.height}px`;
+    chartCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function drawChart() {
+    if (priceHistory.length < 2) return;
+
+    const width = bitcoinCanvas.clientWidth;
+    const height = bitcoinCanvas.clientHeight;
+    const padding = 20;
+
+    chartCtx.clearRect(0, 0, width, height);
+
+    const min = Math.min(...priceHistory);
+    const max = Math.max(...priceHistory);
+    const range = (max - min) || 1;
+    const stepX = (width - padding * 2) / (MAX_POINTS - 1);
+
+    chartCtx.strokeStyle = 'rgba(0,0,0,0.06)';
+    chartCtx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+        const y = padding + ((height - padding * 2) / 4) * i;
+        chartCtx.beginPath();
+        chartCtx.moveTo(padding, y);
+        chartCtx.lineTo(width - padding, y);
+        chartCtx.stroke();
+    }
+
+    chartCtx.beginPath();
+    priceHistory.forEach((price, i) => {
+        const x = padding + i * stepX;
+        const y = padding + (height - padding * 2) * (1 - (price - min) / range);
+        i === 0 ? chartCtx.moveTo(x, y) : chartCtx.lineTo(x, y);
+    });
+
+    const trendUp = priceHistory[priceHistory.length - 1] >= priceHistory[0];
+    chartCtx.strokeStyle = trendUp ? '#2e9e5b' : '#d64545';
+    chartCtx.lineWidth = 2;
+    chartCtx.stroke();
+
+    const lastX = padding + (priceHistory.length - 1) * stepX;
+    chartCtx.lineTo(lastX, height - padding);
+    chartCtx.lineTo(padding, height - padding);
+    chartCtx.closePath();
+    const gradient = chartCtx.createLinearGradient(0, padding, 0, height - padding);
+    gradient.addColorStop(0, trendUp ? 'rgba(46,158,91,0.2)' : 'rgba(214,69,69,0.2)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    chartCtx.fillStyle = gradient;
+    chartCtx.fill();
+
+    chartLoading.classList.add('hidden');
+}
+
+function addPricePoint(price) {
+    priceHistory.push(price);
+    if (priceHistory.length > MAX_POINTS) priceHistory.shift();
+    requestAnimationFrame(drawChart);
+}
+
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    drawChart();
+});
+
+resizeCanvas();
+
 countries.forEach(item => {
     const option = document.createElement('option');
     option.value = item.code;
@@ -38,6 +115,8 @@ let currentPrice = generatePrice();
 function generatePrice() {
     return 60000 + Math.random() * 5000;
 }
+
+
 function updatePriceDisplay() {
     currentPriceEl.textContent = `$${currentPrice.toFixed(2)}`;
     console.log(currentPrice);
@@ -53,12 +132,16 @@ function startLivePrice() {
     socket.addEventListener("message", (event) => {
         const data = JSON.parse(event.data);
         currentPrice = Number(data.p);
+        addPricePoint(currentPrice);
     });
 
     socket.addEventListener("close", () => {
         setTimeout(startLivePrice, 3000);
     });
 }
+
+
+
 startLivePrice()
 function getCountryData(code) {
     return countries.find(item => item.code === code);

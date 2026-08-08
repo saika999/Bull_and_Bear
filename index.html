@@ -24,7 +24,8 @@
                     <a class="header__link" href="#">Рейтинг</a>
                     <a class="header__link" href="#">Правила</a>
                 </nav>
-                <div class="profile-badge header__profile hidden" id="profile-badge">
+                <div class="profile-badge header__profile hidden"
+                    id="profile-badge">
                     <button class="profile-badge__trigger" id="profile-trigger"
                         type="button">
                         <div class="profile-badge__avatar"
@@ -91,6 +92,14 @@
 
             <section class="game-screen hidden" id="game-screen">
                 <div class="container">
+                    <div class="bitcoin-chart">
+                        <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_btc&amp;symbol=BITSTAMP%3ABTCUSD&amp;interval=15&amp;hidesidetoolbar=1&amp;symboledit=1&amp;saveimage=0&amp;toolbarbg=F1F3F6&amp;studies=[]&amp;theme=light&amp;style=1&amp;timezone=Etc%2FUTC&amp;withdateranges=1&amp;hideideas=1&amp;locale=uk" frameborder="0" class="bitcoin-chart__frame" title="Bitcoin chart from" loading="lazy" allowfullscreen>
+
+
+                        </iframe>
+                        <canvas class="bitcoin-chart__canvas" id="bitcoin-canvas" aria-label="Bitcoin candlestick chart"></canvas>
+                        <p class="bitcoin-chart__loading">Loading chart...</p>
+                    </div>
 
                     <div class="game-board">
                         <h2 class="game-board__title">Предскажи рынок</h2>
@@ -123,6 +132,8 @@
                                 id="score-value">0</span>
                         </div>
                     </div>
+                    
+                    
                 </div>
             </section>
         </main>
