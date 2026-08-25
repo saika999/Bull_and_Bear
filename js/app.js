@@ -29,6 +29,16 @@ const chartCtx = bitcoinCanvas.getContext('2d');
 
 const priceHistory = [];
 const MAX_POINTS = 120;
+const BINANCE_URL = 'https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=30'
+const CRYPTO_CURRENCIES = {
+    BTC: { symbol: 'BTCUSDT', name: 'Bitcoin' },
+    ETH: { symbol: 'ETHUSDT', name: 'Ethereum' },
+    SOL: { symbol: 'SOLUSDT', name: 'Solana' }
+}
+
+const coinName = document.getElementById('coin-name');
+const coinBtns = document.querySelectorAll('.currency-btn');
+let selectedCoin = 'BTC'
 
 function resizeCanvas() {
     const rect = bitcoinCanvas.parentElement.getBoundingClientRect();
@@ -119,7 +129,6 @@ function generatePrice() {
 
 function updatePriceDisplay() {
     currentPriceEl.textContent = `$${currentPrice.toFixed(2)}`;
-    console.log(currentPrice);
 }
 
 setInterval(() => {
@@ -282,3 +291,42 @@ if (existingPlayer) {
     gameScreen.classList.remove('hidden');
     gameScreen.classList.add('fade-in');
 }
+// // функция изменения графика валюты ==================================
+
+// function updateMarketData() {
+//   const coin = CRYPTO_CURRENCIES[]
+// }
+
+
+
+
+const user = {
+    name: 'Ivan',
+    age: 43,
+    city: 'Dnipro',
+    profession: 'Developer'
+};
+
+function updateIfExists(object, objectName, property, value) {
+    if (Object.prototype.hasOwnProperty.call(object, property)) {
+        object[property] = value;
+    } else {
+        console.log(`Такого свойства как "${property}" не существует в объекте ${objectName}`);
+    }
+}
+
+function deleteIfExists(object, property) {
+    if (Object.prototype.hasOwnProperty.call(object, property)) {
+        delete object[property];
+    } else {
+        console.log(`Такого свойства как "${property}" не существует в объекте ${JSON.stringify(property)}`);
+    }
+}
+
+updateIfExists(user, 'city', 'Warsaw');
+updateIfExists(user, 'user', 'country', 'Poland');
+
+// deleteIfExists(user, 'age');
+// deleteIfExists(user, 'salary');
+
+console.log(user);
