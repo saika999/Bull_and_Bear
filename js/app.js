@@ -1,5 +1,6 @@
 'use strict'
 import { countries } from "./countries.js";
+import { profileBadge,  renderProfile } from "./profile_card.js";
 
 const startScreen = document.getElementById('start-screen');
 const gameScreen = document.getElementById('game-screen');
@@ -10,14 +11,7 @@ const errorMessage = document.getElementById('form-error');
 
 const profileTrigger = document.getElementById('profile-trigger');
 const profileDropdown = document.getElementById('profile-dropdown');
-const profileAvatar = document.getElementById('profile-avatar');
-const profileFlag = document.getElementById('profile-flag');
-const dropdownAvatar = document.getElementById('dropdown-avatar');
-const dropdownName = document.getElementById('dropdown-name');
-const dropdownFlag = document.getElementById('dropdown-flag');
-const dropdownCountryName = document.getElementById('dropdown-country-name');
 const profileLogout = document.getElementById('profile-logout');
-const profileBadge = document.getElementById('profile-badge');
 
 const currentPriceEl = document.getElementById('current-price');
 const scoreValueEl = document.getElementById('score-value');
@@ -25,6 +19,7 @@ const btnBull = document.getElementById('btn-bull');
 const btnBear = document.getElementById('btn-bear');
 const bitcoinCanvas = document.getElementById('bitcoin-canvas');
 const chartLoading = document.querySelector('.bitcoin-chart__loading');
+const chartFrame = document.querySelector('.bitcoin-chart__frame');
 const chartCtx = bitcoinCanvas.getContext('2d');
 
 const priceHistory = [];
@@ -135,52 +130,45 @@ setInterval(() => {
     updatePriceDisplay();
 }, 20000);
 
-function startLivePrice() {
-    const socket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@aggTrade');
+let socket = null;
+
+function startLivePrice(stream = 'btcusdt') {
+    if (socket) {
+        socket.onclose = null;
+        socket.close();
+    }
+
+    priceHistory.length = 0;
+
+    socket = new WebSocket(`wss://stream.binance.com:9443/ws/${stream}@aggTrade`);
 
     socket.addEventListener("message", (event) => {
         const data = JSON.parse(event.data);
         currentPrice = Number(data.p);
+        updatePriceDisplay();
         addPricePoint(currentPrice);
     });
 
     socket.addEventListener("close", () => {
-        setTimeout(startLivePrice, 3000);
+        setTimeout(() => startLivePrice(stream), 3000);
     });
 }
 
+startLivePrice('btcusdt');
 
+coinBtns.forEach(button => {
+    button.addEventListener('click', () => {
+        coinBtns.forEach(btn => btn.classList.remove('currency-btn_active'));
+        button.classList.add('currency-btn_active');
 
-startLivePrice()
-function getCountryData(code) {
-    return countries.find(item => item.code === code);
-}
+        coinName.textContent = button.dataset.name;
+        selectedCoin = button.dataset.coin;
 
-function renderProfile(player) {
-    const initial = player.nickname.charAt(0).toUpperCase();
-    const countryData = getCountryData(player.country);
+        startLivePrice(button.dataset.stream);
 
-    profileAvatar.textContent = initial;
-    dropdownAvatar.textContent = initial;
-    dropdownName.textContent = player.nickname;
-
-    if (countryData && countryData.flag) {
-        profileFlag.src = countryData.flag;
-        profileFlag.alt = countryData.country;
-        profileFlag.style.display = 'block';
-
-        dropdownFlag.src = countryData.flag;
-        dropdownFlag.alt = countryData.country;
-        dropdownFlag.style.display = 'block';
-        dropdownCountryName.textContent = countryData.country;
-    } else {
-        profileFlag.style.display = 'none';
-        dropdownFlag.style.display = 'none';
-        dropdownCountryName.textContent = player.country;
-    }
-
-    profileBadge.classList.remove('hidden');
-}
+        chartFrame.src = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_btc&symbol=BITSTAMP%3A${button.dataset.symbol}&interval=15&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=F1F3F6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&hideideas=1&locale=uk`;
+    });
+});
 
 function switchToGameScreen() {
     startScreen.classList.add('fade-out');
@@ -291,42 +279,3 @@ if (existingPlayer) {
     gameScreen.classList.remove('hidden');
     gameScreen.classList.add('fade-in');
 }
-// // функция изменения графика валюты ==================================
-
-// function updateMarketData() {
-//   const coin = CRYPTO_CURRENCIES[]
-// }
-
-
-
-
-const user = {
-    name: 'Ivan',
-    age: 43,
-    city: 'Dnipro',
-    profession: 'Developer'
-};
-
-function updateIfExists(object, objectName, property, value) {
-    if (Object.prototype.hasOwnProperty.call(object, property)) {
-        object[property] = value;
-    } else {
-        console.log(`Такого свойства как "${property}" не существует в объекте ${objectName}`);
-    }
-}
-
-function deleteIfExists(object, property) {
-    if (Object.prototype.hasOwnProperty.call(object, property)) {
-        delete object[property];
-    } else {
-        console.log(`Такого свойства как "${property}" не существует в объекте ${JSON.stringify(property)}`);
-    }
-}
-
-updateIfExists(user, 'city', 'Warsaw');
-updateIfExists(user, 'user', 'country', 'Poland');
-
-// deleteIfExists(user, 'age');
-// deleteIfExists(user, 'salary');
-
-console.log(user);

@@ -2,9 +2,9 @@
 
 import { countries } from './countries.js';
 
+export const profileBadge = document.getElementById('profile-badge');
 const profileFlag = document.getElementById('profile-flag');
 const profileAvatar = document.getElementById('profile-avatar');
-const profileBadge = document.getElementById('profile-badge');
 const dropdownAvatar = document.getElementById('dropdown-avatar');
 const dropdownName = document.getElementById('dropdown-name');
 const dropdownFlag = document.getElementById('dropdown-flag');
@@ -40,6 +40,6 @@ export function renderProfile(player) {
     profileBadge.classList.remove('hidden');
 }
 
-export function hideProfile() {
-    profileBadge.classList.add('hidden');
-}
+// function hideProfile() {
+//     profileBadge.classList.add('hidden');
+// }
